@@ -1,25 +1,14 @@
-import tensorflow as tf
-from tensorflow.keras.models import Model
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import json, os, random
-from tqdm import tqdm
-from scipy.signal import hilbert
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 from tensorflow.keras.models import load_model
-
-
-
-import utils, NeuralNet
-utils = utils.utils()
-
-
+import sys
+import numpy as np
 
 class DeepFilter():
     def __init__(self):
         print("Initializing DeepFilter  Class with default parameters")
         self.filtermodel = load_model("results/Models/EFR_Autoencoder_v01.h5",compile=False)
-        self.filtermodel.summary()
+        # self.filtermodel.summary()
         self.fs          = 24414
         self.Nt          = 2048
 
@@ -27,17 +16,29 @@ class DeepFilter():
         self.target_frequency = target_frequency
 
     def lowpass_filter(self,waveform):
-
         pass
 
     def apply_filter(self,waveform):
-        scale       = waveform.amax()
+        # waveform    = self.lowpass_filter(waveform)
+        scale       = waveform.max()
         waveform    = waveform/scale
-        filtered    = self.filtermodel.predict(EFRs)
+        filtered    = self.filtermodel.predict(waveform)
         return filtered*scale
 
-
 if __name__ == "__main__":
-    trutil = NeuralNet.TrainUtils()
     deepfilter = DeepFilter()
-    # EFRs, onsets, offsets = trutil.load_real_efr(target_frequency=220)
+    input = np.array(sys.argv[1::])
+    flag  = False
+    try:
+        assert input.size==deepfilter.Nt
+        flag==True
+    except:
+        print("DeepFilter: Input signal size needs to be 2048, input received:", input.size)
+
+    if flag:
+
+        waveform   = input
+        waveform = waveform.astype('float')
+        waveform = waveform.reshape([2048,1])
+        filtered = deepfilter.apply_filter(waveform)
+        print(filtered)

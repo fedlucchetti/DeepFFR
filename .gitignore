@@ -1,6 +1,11 @@
 *json
 *pyc
 *__
+*FFR.py
+*NeuralNet.py
+*test
+*train
+*utils
 /bin/__deprecated/
 /bin/__pycache__/
 /data/
