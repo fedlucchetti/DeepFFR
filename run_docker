@@ -1,0 +1,9 @@
+BINPATH=$(pwd)/bin
+DATAPATH=$(pwd)/data
+
+BINDESTPATH=/home/FFRNeuralNet/bin
+DATADESTPATH=/home/FFRNeuralNet/data
+
+docker run --gpus all -it -v ${BINPATH}:${BINDESTPATH}   \
+                          -v ${DATAPATH}:${DATADESTPATH}   \
+                             deepffr-tf

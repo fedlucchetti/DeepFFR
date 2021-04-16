@@ -1,0 +1,6 @@
+*json
+*pyc
+*__
+/bin/__deprecated/
+/bin/__pycache__/
+/data/
