@@ -4,6 +4,9 @@ from tensorflow.keras.models import load_model
 import sys
 import numpy as np
 
+
+
+
 class DeepFilter():
     def __init__(self):
         print("Initializing DeepFilter  Class with default parameters")
@@ -24,6 +27,7 @@ class DeepFilter():
         waveform    = waveform/scale
         filtered    = self.filtermodel.predict(waveform)
         return filtered*scale
+
 
 if __name__ == "__main__":
     deepfilter = DeepFilter()
