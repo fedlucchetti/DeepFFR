@@ -1,20 +1,22 @@
 # DeepFFR
 
 
-## Install
+## Install and run without docker container
 ```bash
-git checkout origin/main
-git clone 
+git clone git@github.com:fedlucchetti/DeepFFR.git
+# build application
 python setup.py install
 ```
 
-## Docker
+## Install and run inside docker container
 
 ```bash
 # Build docker image
 ./build_docker
 # enter environment
 ./run_docker
+# build application
+python setup.py install
 ```
 
 ## Autoencoder deployment
