@@ -3,6 +3,8 @@
 
 ## Install
 ```bash
+git checkout origin/main
+git clone 
 python setup.py install
 ```
 
