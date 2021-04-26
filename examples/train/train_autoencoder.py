@@ -13,10 +13,11 @@ if gpus and sys.argv[1]!='full':
         print(e)
 import numpy as np
 import matplotlib.pyplot as plt
-import NeuralNet
-import utils
+from deepffr import NeuralNet
+from deepffr import Utils
+
 print("-----------------INIT CLASSES--------------------")
-utils         = utils.utils()
+utils         = Utils.Utils()
 nn            = NeuralNet.NeuralNet()
 trutil        = NeuralNet.TrainUtils()
 
@@ -37,9 +38,6 @@ trutil.epochs        = 100
 
 print("-----------------GENERATE DATA SET--------------------")
 trutil.generate_autoencoder_data_set(B)
-
-
-
 
 print("-----------------ARCHITECTURE--------------------")
 trutil.model = nn.autoencoder()

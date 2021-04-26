@@ -1,8 +1,10 @@
-BINPATH=$(pwd)/bin
+# BINPATH=$(pwd)/deepffr
+BINPATH=$(pwd)
+
 DATAPATH=$(pwd)/data
 
-BINDESTPATH=/home/FFRNeuralNet/bin
-DATADESTPATH=/home/FFRNeuralNet/data
+BINDESTPATH=/home/deepffr
+DATADESTPATH=/home/deepffr/data
 
 docker run --gpus all -it -v ${BINPATH}:${BINDESTPATH}   \
                           -v ${DATAPATH}:${DATADESTPATH}   \

@@ -1,6 +1,6 @@
 print("-----------------IMPORT LBR--------------------")
 import json,  sys, os, random
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 import tensorflow as tf
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus and sys.argv[1]!='full':
@@ -13,37 +13,37 @@ if gpus and sys.argv[1]!='full':
         print(e)
 import numpy as np
 import matplotlib.pyplot as plt
-import NeuralNet
-import utils
+from deepffr import NeuralNet
+from deepffr import Utils
 print("-----------------INIT CLASSES--------------------")
-utils         = utils.utils()
+utils         = Utils.Utils()
 nn            = NeuralNet.NeuralNet()
 trutil        = NeuralNet.TrainUtils()
 
 print("-----------------INIT CONSTANTS--------------------")
 Nt            = utils.Nt
-trutil.frequencies   = np.arange(100,4000,10)
-trutil.SNR_array     = np.arange(-4,3,0.1)
+trutil.frequencies   = np.arange(110,4000,50)
+trutil.SNR_array     = np.arange(-2,3,0.1)
 trutil.ton_array     = np.round(np.linspace(0.005,  0.025 , 40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.toff_array    = np.round(np.linspace(0.045 , 0.07,   40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.rise_array    = np.round(np.linspace(0.001,  0.01 ,  40, endpoint=True) *  utils.fs)
-B                    = 50
+B                    = 40
 SHOWPLOT             = True
 SAVEPLOT             = True
 train_ratio          = 0.8
 trutil.learning_rate = 0.0001
 trutil.batch_size    = 128
-trutil.epochs        = 75
+trutil.epochs        = 200
+trutil.mode          = 'filter'
 
 print("-----------------GENERATE DATA SET--------------------")
-trutil.generate_EFR_data_set(B)
-# trutil.generate_analyticalEFR_data_set(B)
+trutil.generate_onset_data_set(B)
+
 
 
 
 print("-----------------ARCHITECTURE--------------------")
-trutil.model = nn.architecture4()
-# trutil.model = nn.architecture4_analytical()
+trutil.model = nn.onsetNN()
 print("loaded",trutil.model.name)
 trutil.model.summary()
 print("----------------- TRAIN --------------------")
@@ -53,6 +53,6 @@ history = trutil.run_experiment()
 
 
 
-path  = "results/Models/Envelope_model.h5"
+path  = "results/Models/OnsetNetwork_v01.h5"
 print("Saving submodel to ", path)
 trutil.model.save(path)

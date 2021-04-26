@@ -6,6 +6,4 @@ __*
 /build/
 /dist/
 /deepffr.egg-info/
-/bin/__deprecated/
-/bin/__pycache__/
 /data/
