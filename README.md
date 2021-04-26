@@ -2,8 +2,9 @@
 
 
 ## Install
-
+```bash
 python setup.py install
+```
 
 ## Docker
 
@@ -16,4 +17,6 @@ python setup.py install
 
 ## Autoencoder deployment
 
+```bash
 python DeepFilter [2048-size array]
+```
