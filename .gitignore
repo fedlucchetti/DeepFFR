@@ -1,13 +1,10 @@
 *json
 *pyc
 *__
-/bin/test*
-/bin/train*
-/bin/utils*
-/bin/NeuralNet*
-/bin/FFR*
-
-
+__*
+/.git/
+/build/
+/deepffr.egg-info/
 /bin/__deprecated/
 /bin/__pycache__/
 /data/

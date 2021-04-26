@@ -1,4 +1,0 @@
-###########      Usage     ###########
-
-args                             = {'NSamples':Nt,'sampling':fs,'frequency':frequency,"onset":ton,"offset":toff,"risefall":risefall,"SNR":SNR,"phase0":0}
-sinusoid, envelope, phase, noise = insilico_EFR(args)
