@@ -22,5 +22,7 @@ python setup.py install
 ## Autoencoder deployment
 
 ```bash
-python DeepFilter [2048-size array]
+from deepffr import DeepFilter
+df       = DeepFilter.DeepFilter()
+filtered = df.apply_filter(efr_waveform)
 ```
