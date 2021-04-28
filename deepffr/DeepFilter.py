@@ -2,6 +2,8 @@ import os
 # os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 from tensorflow.keras.models import load_model
 import sys
+from os.path import split
+
 import numpy as np
 
 
@@ -10,14 +12,18 @@ import numpy as np
 class DeepFilter():
     def __init__(self):
         print("Initializing DeepFilter  Class with default parameters")
-        self.filtermodel = load_model("results/Models/EFR_Autoencoder_v01.h5",compile=False)
-        # self.filtermodel.summary()
+        path2model = os.path.join(split(os.path.realpath(__file__))[0], "models", "EFR_Autoencoder.h5")
+        self.filtermodel = load_model(path2model,compile=False)
+        self.filtermodel.summary()
         self.fs          = 24414
-        self.Nt          = 2048
+        self.Nt          = self.filtermodel.layers[0].input.shape[1]
 
+
+    # TO DO
     def set_frequency(self,target_frequency):
         self.target_frequency = target_frequency
 
+    # TO DO
     def lowpass_filter(self,waveform):
         pass
 

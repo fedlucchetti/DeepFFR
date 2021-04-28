@@ -11,14 +11,16 @@ def read(fname):
 
 setup(
     name = "deepffr",
-    version = "0.0.1",
+    version = "0.0.2",
     author = "Federico Lucchetti",
     author_email = "fedlucchetti@gmail.com",
     description = ("Deep FFR Utility."),
     license = "BSD",
     keywords = "example documentation tutorial",
-    url = "http://packages.python.org/an_example_pypi_project",
+    url = "https://github.com/fedlucchetti/DeepFFR",
     packages=find_packages(include=['deepffr']),
+    package_data={"deepffr": ["models/*.h5"],},
+    include_package_data=True,
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
