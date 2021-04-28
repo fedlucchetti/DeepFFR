@@ -3,7 +3,7 @@
 
 ## Install and run without docker container
 ```bash
-git clone git@github.com:fedlucchetti/DeepFFR.git
+git clone https://github.com/fedlucchetti/DeepFFR.git
 # build application
 python setup.py install
 ```
