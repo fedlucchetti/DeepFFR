@@ -46,7 +46,6 @@ if __name__ == "__main__":
         print("DeepFilter: Input signal size needs to be 2048, input received:", input.size)
 
     if flag:
-
         waveform   = input
         waveform = waveform.astype('float')
         waveform = waveform.reshape([2048,1])
