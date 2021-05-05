@@ -1,6 +1,6 @@
 print("-----------------IMPORT LBR--------------------")
 import json,  sys, os, random
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 import tensorflow as tf
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus and sys.argv[1]!='full':

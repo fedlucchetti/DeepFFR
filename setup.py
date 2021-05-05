@@ -22,10 +22,10 @@ setup(
     package_data={"deepffr": ["models/*.h5"],},
     include_package_data=True,
     long_description=read('README.md'),
-    install_requires=[
-            'tensorflow',
-            'tqdm',
-            'matplotlib'],
+    # install_requires=[
+    #         'tensorflow',
+    #         'tqdm',
+    #         'matplotlib'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",

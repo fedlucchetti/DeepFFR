@@ -8,4 +8,4 @@ DATADESTPATH=/home/deepffr/data
 
 docker run --gpus all -it -v ${BINPATH}:${BINDESTPATH}   \
                           -v ${DATAPATH}:${DATADESTPATH}   \
-                             deepffr-tf
+                             deepffr-tf:latest

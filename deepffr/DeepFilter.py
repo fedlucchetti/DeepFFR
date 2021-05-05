@@ -27,12 +27,17 @@ class DeepFilter():
     def lowpass_filter(self,waveform):
         pass
 
+    def __reshape__(self,waveform):
+        waveform = np.reshape(waveform,[1,np.amax(waveform.shape)])
+        return waveform
+
     def apply_filter(self,waveform):
-        # waveform    = self.lowpass_filter(waveform)
         scale       = waveform.max()
         waveform    = waveform/scale
-        filtered    = self.filtermodel.predict(waveform)
-        return filtered*scale
+        waveform    = self.__reshape__(waveform)
+        filtered    = self.filtermodel.predict(waveform,batch_size=1)
+        filtered    = np.reshape(filtered,[self.Nt])
+        return (filtered*2-1)*scale
 
 
 if __name__ == "__main__":
