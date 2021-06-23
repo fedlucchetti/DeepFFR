@@ -9,8 +9,8 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import math
 
-import NeuralNet
-import Utils
+from deepffr import NeuralNet
+from deepffr import Utils
 
 target_frequency = float(sys.argv[1])
 utils  = Utils.Utils()
@@ -22,7 +22,7 @@ Nt     = utils.Nt
 t      = utils.t*1000
 
 
-model = load_model("results/Models/EFR_Autoencoder_v01.h5",compile=False)
+model = load_model("../../results/Models/EFR_Autoencoder_v03.h5",compile=False)
 model.summary()
 EFRs, onsets, offsets = trutil.load_real_efr(target_frequency)
 print("Loaded ", EFRs.shape, " recorded EFRs")

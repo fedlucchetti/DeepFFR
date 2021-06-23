@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Flatten,Conv1D,LSTM,MaxPooling1D,Dropout, \
                                     GlobalAveragePooling1D,concatenate,Dense,Input,BatchNormalization, Conv1DTranspose,Lambda, \
-                                    ThresholdedReLU,GlobalMaxPool1D
+                                    ThresholdedReLU,GlobalMaxPool1D, TimeDistributed
 from tensorflow.keras.models import Model
 import numpy as np
 import pandas as pd
@@ -70,6 +70,57 @@ class NeuralNet():
         layer    = Conv1D(1, kernel_size=1, padding='same', activation='relu')(layer)
         model    = Model(inputs=visible, outputs=layer)
         model._name="autoencoder"
+        return model
+
+    def autoencoder(self):
+        visible  = Input(shape=(self.Nt,1))
+        layer    = Conv1D(filters=128, kernel_size=101,padding='same', activation='relu')(visible)
+        layer    = Conv1D(filters=64, kernel_size=51,padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = Conv1D(filters=32, kernel_size=5,padding='same', activation='relu')(layer)
+        layer    = Conv1D(filters=16, kernel_size=5,padding='same', activation='relu')(layer)
+        layer    = Conv1D(filters=16, kernel_size=3,padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = Conv1DTranspose(16, kernel_size=3, padding='same', activation='relu')(layer)
+        layer    = Conv1DTranspose(16, kernel_size=3, padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = Conv1DTranspose(32, kernel_size=5, padding='same', activation='relu')(layer)
+        layer    = Conv1DTranspose(64, kernel_size=51, padding='same', activation='relu')(layer)
+        layer    = Conv1DTranspose(128, kernel_size=101, padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = Conv1D(1, kernel_size=1, padding='same', activation='relu')(layer)
+        model    = Model(inputs=visible, outputs=layer)
+        model._name="autoencoder"
+        return model
+
+    def autoencoder2(self):
+        visible  = Input(shape=(self.Nt,1))
+        layer    = Conv1D(filters=128, kernel_size=101,padding='same', activation='relu')(visible)
+        layer    = Conv1D(filters=64, kernel_size=51,padding='same', activation='relu')(layer)
+        layer    = Conv1D(filters=16, kernel_size=5,padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = Conv1DTranspose(16, kernel_size=5, padding='same', activation='relu')(layer)
+        layer    = Conv1DTranspose(64, kernel_size=51, padding='same', activation='relu')(layer)
+        layer    = Conv1DTranspose(128, kernel_size=101, padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = LSTM(64    ,return_sequences=True)(layer)
+        layer    = Dropout(0.5                                                           )(layer)
+        layer    = TimeDistributed(Dense(1 ,activation='sigmoid'                          ))(layer)
+        model    = Model(inputs=visible, outputs=layer)
+        model._name="autoencoder2"
+        return model
+
+    def autoencoder3(self):
+        visible  = Input(shape=(self.Nt,1))
+        layer    = Conv1D(filters=128, kernel_size=101,padding='same', activation='relu')(visible)
+        layer    = Conv1D(filters=64, kernel_size=51,padding='same', activation='relu')(layer)
+        layer    = Conv1D(filters=16, kernel_size=5,padding='same', activation='relu')(layer)
+        layer    = Dropout(0.5)(layer)
+        layer    = LSTM(64    ,return_sequences=True)(layer)
+        layer    = Dropout(0.5                                                           )(layer)
+        layer    = TimeDistributed(Dense(1 ,activation='sigmoid'                          ))(layer)
+        model    = Model(inputs=visible, outputs=layer)
+        model._name="autoencoder3"
         return model
 
     def onsetNN(self):
@@ -287,7 +338,7 @@ class TrainUtils():
 
 
     def load_real_efr(self,fc):
-        path_to_json = '../data/real/control/'
+        path_to_json = '../../data/real/control/'
         json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
         jsons_data = pd.DataFrame(columns=['Ex_number', 'Length', 'Latency', 'Frequency', 'EFR'])
         n_efr = 0
