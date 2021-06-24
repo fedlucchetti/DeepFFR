@@ -28,19 +28,19 @@ trutil.SNR_array     = np.arange(-4,3,0.1)
 trutil.ton_array     = np.round(np.linspace(0.005,  0.025 , 40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.toff_array    = np.round(np.linspace(0.045 , 0.07,   40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.rise_array    = np.round(np.linspace(0.001,  0.01 ,  40, endpoint=True) *  utils.fs)
-B                    = 50
+B                    = 10
 SHOWPLOT             = True
 SAVEPLOT             = True
 train_ratio          = 0.8
 trutil.learning_rate = 0.0001
 trutil.batch_size    = 64
-trutil.epochs        = 100
+trutil.epochs        = 50
 
 print("-----------------GENERATE DATA SET--------------------")
 trutil.generate_autoencoder_data_set(B)
 
 print("-----------------ARCHITECTURE--------------------")
-trutil.model = nn.autoencoder()
+trutil.model = nn.autoencoder3()
 print("loaded",trutil.model.name)
 trutil.model.summary()
 print("----------------- TRAIN --------------------")
@@ -50,6 +50,6 @@ history = trutil.run_experiment()
 
 
 
-path  = "results/Models/EFR_Autoencoder_v01.h5"
+path  = "results/Models/EFR_Autoencoder_v03.h5"
 print("Saving submodel to ", path)
 trutil.model.save(path)
