@@ -114,9 +114,9 @@ class NeuralNet():
         visible  = Input(shape=(self.Nt,1))
         layer    = Conv1D(filters=128, kernel_size=101,padding='same', activation='relu')(visible)
         layer    = Conv1D(filters=64, kernel_size=51,padding='same', activation='relu')(layer)
-        layer    = Conv1D(filters=16, kernel_size=5,padding='same', activation='relu')(layer)
         layer    = Dropout(0.5)(layer)
-        layer    = LSTM(64    ,return_sequences=True)(layer)
+        layer    = LSTM(32    ,return_sequences=True)(layer)
+        layer    = LSTM(32    ,return_sequences=True)(layer)
         layer    = Dropout(0.5                                                           )(layer)
         layer    = TimeDistributed(Dense(1 ,activation='sigmoid'                          ))(layer)
         model    = Model(inputs=visible, outputs=layer)
@@ -125,10 +125,9 @@ class NeuralNet():
 
     def onsetNN(self):
         visible  = Input(shape=(self.Nt,1))
-        layer    = Conv1D(filters=128, kernel_size=101,padding='same', activation='relu')(visible)
-        layer    = Conv1D(filters=64, kernel_size=51,padding='same', activation='relu')(layer)
-
+        layer    = Conv1D(filters=128, kernel_size=5,padding='same', activation='relu')(visible)
         layer    = Dropout(0.5)(layer)
+        layer    = LSTM(64    ,return_sequences=True )(layer)
         layer    = LSTM(64    ,return_sequences=True )(layer)
         layer    = TimeDistributed(Dense(1 ,activation='sigmoid'     ))(layer)
         model    = Model(inputs=visible, outputs=layer)
@@ -136,7 +135,8 @@ class NeuralNet():
         return model
 
 
-class TrainUtils():
+class TrainUtils():# import matplotlib,sys
+# matplotlib.use('tkagg')
     def __init__(self):
         self.model   = None
         self.train_dataset = None
@@ -148,7 +148,7 @@ class TrainUtils():
         self.valY          = None
         self.train_ratio   = 0.8
         self.Nt            = utils.Nt
-        self.mode          = "filter"
+        self.mode          = "classification"
         print("Initializing Train Utils Class with default parameters")
         return None
 
@@ -160,7 +160,7 @@ class TrainUtils():
         X = np.zeros([B,self.frequencies.size,self.Nt])
         Y = np.zeros([B,self.frequencies.size,self.Nt])
         args             = {"NSamples":self.Nt,'sampling':utils.fs,"modulator":None}
-        for b in tqdm(range(B)):
+        for b in tqdm(rantrutilge(B)):
             for idf, frequency in enumerate(self.frequencies):
                 args["onset"]       = self.ton_array[np.random.randint(0,len(self.ton_array),1)[0]]
                 args["offset"]      = self.toff_array[np.random.randint(0,len(self.toff_array),1)[0]]
@@ -271,14 +271,16 @@ class TrainUtils():
         print(self.val_X.shape, '---->',self.val_labels.shape)
 
     def compile(self):
+        print("Switching to", self.mode," mode")
         if self.mode=='filter':
             self.model.compile(loss=tf.losses.MeanSquaredError(),
                                optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
                                metrics=tf.keras.metrics.MeanSquaredError())
         elif self.mode=='classification':
+
             self.model.compile(loss=tf.losses.BinaryCrossentropy(),
                                optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
-                               metrics=tf.keras.metrics.MeanSquaredError())
+                               metrics=tf.keras.metrics.BinaryCrossentropy())
 
     def train(self):
         history     = self.model.fit(x=self.train_X,y=self.train_labels\
@@ -322,11 +324,7 @@ class TrainUtils():
 
 
     def load_real_efr(self,fc):
-<<<<<<< HEAD
         # file_path = os.path.realpath(__file__)
-
-=======
->>>>>>> bfce6a16bf0c048676fbc1bc8b34c1a47ebe1a0d
         path_to_json = '../../data/real/control/'
         json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
         jsons_data = pd.DataFrame(columns=['Ex_number', 'Length', 'Latency', 'Frequency', 'EFR'])

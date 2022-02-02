@@ -22,7 +22,7 @@ trutil        = NeuralNet.TrainUtils()
 
 print("-----------------INIT CONSTANTS--------------------")
 Nt            = utils.Nt
-trutil.frequencies   = np.arange(100,4000,10)
+trutil.frequencies   = np.arange(50,4000,10)
 trutil.SNR_array     = np.arange(-4,3,0.1)
 trutil.ton_array     = np.round(np.linspace(0.005,  0.025 , 40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.toff_array    = np.round(np.linspace(0.045 , 0.07,   40, endpoint=True) *  utils.fs)  # convert to #samples

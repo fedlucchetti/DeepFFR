@@ -22,7 +22,7 @@ Nt     = utils.Nt
 t      = utils.t*1000
 
 
-model = load_model("../../results/Models/EFR_Autoencoder_v03.h5",compile=False)
+model = load_model("../../results/Models/EFR_Autoencoder_v05.h5",compile=False)
 model.summary()
 EFRs, onsets, offsets = trutil.load_real_efr(target_frequency)
 print("Loaded ", EFRs.shape, " recorded EFRs")

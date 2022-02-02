@@ -22,18 +22,18 @@ trutil        = NeuralNet.TrainUtils()
 
 print("-----------------INIT CONSTANTS--------------------")
 Nt            = utils.Nt
-trutil.frequencies   = np.arange(220-50,220+50,10)
+trutil.frequencies   = np.arange(50,4000,50)
 trutil.SNR_array     = np.arange(-2,3,0.1)
 trutil.ton_array     = np.round(np.linspace(0.005,  0.025 , 40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.toff_array    = np.round(np.linspace(0.045 , 0.07,   40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.rise_array    = np.round(np.linspace(0.001,  0.01 ,  40, endpoint=True) *  utils.fs)
-B                    = 40
+B                    = 50
 SHOWPLOT             = True
 SAVEPLOT             = True
 train_ratio          = 0.8
 trutil.learning_rate = 0.0001
 trutil.batch_size    = 128
-trutil.epochs        = 200
+trutil.epochs        = 25
 trutil.mode          = 'filter'
 
 print("-----------------GENERATE DATA SET--------------------")
@@ -47,7 +47,7 @@ trutil.model = nn.onsetNN()
 print("loaded",trutil.model.name)
 trutil.model.summary()
 print("----------------- TRAIN --------------------")
-
+trutil.mode=='classification'
 history = trutil.run_experiment()
 
 
