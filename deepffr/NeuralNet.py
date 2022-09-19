@@ -160,7 +160,7 @@ class TrainUtils():# import matplotlib,sys
         X = np.zeros([B,self.frequencies.size,self.Nt])
         Y = np.zeros([B,self.frequencies.size,self.Nt])
         args             = {"NSamples":self.Nt,'sampling':utils.fs,"modulator":None}
-        for b in tqdm(rantrutilge(B)):
+        for b in tqdm(range(B)):
             for idf, frequency in enumerate(self.frequencies):
                 args["onset"]       = self.ton_array[np.random.randint(0,len(self.ton_array),1)[0]]
                 args["offset"]      = self.toff_array[np.random.randint(0,len(self.toff_array),1)[0]]
@@ -269,6 +269,8 @@ class TrainUtils():# import matplotlib,sys
         print(self.train_X.shape, '---->',self.train_labels.shape)
         print("-----------------VALIDATION DATA--------------------")
         print(self.val_X.shape, '---->',self.val_labels.shape)
+
+
 
     def compile(self):
         print("Switching to", self.mode," mode")

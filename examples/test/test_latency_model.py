@@ -40,9 +40,13 @@ def get_ton(gate):
     return ton, toff
 
 
-
-model = load_model("../train/results/Models/OnsetNetwork_v01.h5",compile=False)
-filtermodel = load_model("../train/results/Models/EFR_Autoencoder_v01.h5",compile=False)
+if sys.argv[2]=='all':
+    model = load_model("../train/results/Models/OnsetNetwork_v01.h5",compile=False)
+    filtermodel = load_model("../train/results/Models/EFR_Autoencoder_v01.h5",compile=False)
+else:
+    fc = int(sys.argv[2])
+    model = load_model("../train/results/Models/OnsetNetwork_"+str(fc)+"_v01.h5",compile=False)
+    filtermodel = load_model("../train/results/Models/EFR_Autoencoder_"+str(fc)+"_v01.h5",compile=False)
 model.summary()
 EFRs, onsets, offsets = trutil.load_real_efr(target_frequency)
 print("Loaded ", EFRs.shape, " recorded EFRs")

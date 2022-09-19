@@ -2,15 +2,6 @@ print("-----------------IMPORT LBR--------------------")
 import json,  sys, os, random
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 import tensorflow as tf
-gpus = tf.config.experimental.list_physical_devices('GPU')
-if gpus and sys.argv[1]!='full':
-    print("Allocating GPU memory")
-    try:
-        tf.config.experimental.set_virtual_device_configuration(gpus[0], \
-        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=int(sys.argv[1]))])
-        print("Allocating GPU memory: DONE")
-    except RuntimeError as e:
-        print(e)
 import numpy as np
 import matplotlib.pyplot as plt
 from deepffr import NeuralNet
@@ -24,7 +15,13 @@ trutil.mode   = 'filter'
 
 print("-----------------INIT CONSTANTS--------------------")
 Nt            = utils.Nt
-trutil.frequencies   = np.arange(50,4000,50)
+if sys.argv[1]=='all':
+    print("Target all frequencies")
+    trutil.frequencies   = np.arange(50,4000,50)
+else:
+    fc = float(sys.argv[1])
+    print("Target all",fc, "frequency")
+    trutil.frequencies   = np.arange(fc-25,fc+25,1)
 trutil.SNR_array     = np.arange(-4,3,0.1)
 trutil.ton_array     = np.round(np.linspace(0.005,  0.025 , 40, endpoint=True) *  utils.fs)  # convert to #samples
 trutil.toff_array    = np.round(np.linspace(0.045 , 0.07,   40, endpoint=True) *  utils.fs)  # convert to #samples
@@ -50,7 +47,10 @@ history = trutil.run_experiment()
 
 
 
-
-path  = "results/Models/EFR_Autoencoder_v05.h5"
+if sys.argv[1]=='all':
+    path  = "results/Models/EFR_Autoencoder_v01.h5"
+else:
+    fc = int(sys.argv[1])
+    path  = "results/Models/EFR_Autoencoder_"+str(fc)+"_v01.h5"
 print("Saving submodel to ", path)
 trutil.model.save(path)
